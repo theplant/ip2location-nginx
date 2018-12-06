@@ -1,5 +1,11 @@
 SHELL = /bin/bash
 
+basebuild:
+	@docker build -t theplant/ip2location-nginx-base:latest -f Base.Dockerfile .
+
+basepush: basebuild
+	@docker push theplant/ip2location-nginx-base:latest
+
 DB11.BIN:
 	@wget "http://www.ip2location.com/download/?token=${DOWNLOAD_TOKEN}&file=DB11LITEBINIPV6" -O DB11.ZIP
 	@unzip DB11.ZIP -d DB11
@@ -7,7 +13,8 @@ DB11.BIN:
 	@rm -rf DB11.ZIP DB11
 
 build: DB11.BIN
-	@docker build -t theplant/ip2location-nginx .
+	@docker build -t theplant/ip2location-nginx:latest .
 
 push: build
-	@docker push theplant/ip2location-nginx
+	@docker push theplant/ip2location-nginx:latest
+

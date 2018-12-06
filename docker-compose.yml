@@ -1,6 +1,6 @@
 version: '2'
 services:
   nginx:
-    image: ip2location-nginx:latest
+    image: theplant/ip2location-nginx:latest
     ports:
     - "8080:8080"
