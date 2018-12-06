@@ -7,4 +7,7 @@ DB11.BIN:
 	@rm -rf DB11.ZIP DB11
 
 build: DB11.BIN
-	@docker build -t ip2location-nginx .
+	@docker build -t theplant/ip2location-nginx .
+
+push: build
+	@docker push theplant/ip2location-nginx
