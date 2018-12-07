@@ -13,8 +13,7 @@ DB11.BIN:
 	@rm -rf DB11.ZIP DB11
 
 build: DB11.BIN
-	@docker build -t theplant/ip2location-nginx:latest .
+	@docker build -t theplant/ip2location-nginx:$$(date "+%Y%m%d") .
 
 push: build
-	@docker push theplant/ip2location-nginx:latest
-
+	@docker push theplant/ip2location-nginx:$$(date "+%Y%m%d")
