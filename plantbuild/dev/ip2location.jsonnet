@@ -1,7 +1,7 @@
 local k8s = import 'k8s.jsonnet';
 
 k8s.image_to_url(
-  namespace='dev-ip2location',
+  namespace='ip2location',
   name='ip2location',
   host='ip2location.theplant-dev.com',
   path='/',
