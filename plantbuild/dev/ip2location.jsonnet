@@ -5,6 +5,8 @@ k8s.image_to_url(
   name='ip2location',
   host='ip2location.theplant-dev.com',
   path='/',
+  port=8080,
+  targetPort=8080,
   imagePullSecrets='',
   image='theplant/ip2location-nginx',
   ingressTLSEnabled=true,
