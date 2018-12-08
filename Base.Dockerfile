@@ -1,7 +1,7 @@
-FROM debian:jessie as builder
-# FROM debian:jessie
+FROM nginx:1.14.2 as builder
+#FROM nginx:1.14.2
 RUN apt-get update -y && \
-    apt-get install -y build-essential dh-autoreconf unzip wget libpcre3 libpcre3-dev zlib1g zlib1g.dev && \
+    apt-get install -y build-essential dh-autoreconf unzip wget libpcre3 libpcre3-dev zlib1g zlib1g.dev libssl-dev && \
     rm -rf /var/lib/apt/lists/*
 RUN mkdir /nginx-dev && \
     cd /nginx-dev \
@@ -16,23 +16,17 @@ RUN mkdir /nginx-dev && \
     && cd /nginx-dev \
     && wget https://github.com/ip2location/ip2location-nginx/archive/master.zip \
     && unzip master.zip && rm master.zip \
-    && cd /nginx-dev \
-    && wget http://nginx.org/download/nginx-1.14.1.tar.gz \
-    && tar xvfz nginx-*.tar.gz && rm nginx-*.tar.gz \
-    && cd /nginx-dev/nginx-1.14.1 \
-    && ./configure \
-        --conf-path=/etc/nginx/nginx.conf \
-        --add-module=/nginx-dev/ip2location-nginx-master \
-        --with-http_realip_module \
-    && make \
-    && make install \
-    && rm -rf /nginx-dev
+    && wget http://nginx.org/download/nginx-1.14.2.tar.gz \
+    && tar xvfz nginx-*.tar.gz && rm nginx-*.tar.gz
+RUN nginx -V 2> $$ \
+    && nginx_configure_arguments="`cat $$ | grep 'configure arguments:' | awk -F: '{print $2}'` --add-module=/nginx-dev/ip2location-nginx-master" \
+    && rm -rf $$ \
+    && cd /nginx-dev/nginx-1.14.2 \
+    && eval ./configure $nginx_configure_arguments \
+    && make
 
-FROM debian:jessie
+FROM nginx:1.14.2
 ENV LD_LIBRARY_PATH /usr/local/lib
-COPY --from=builder /usr/local/nginx /usr/local/nginx
 COPY --from=builder /usr/local/lib /usr/local/lib
-COPY --from=builder /etc/nginx /etc/nginx
-RUN  ln -sf /dev/stdout /usr/local/nginx/logs/access.log \
-     && ln -sf /dev/stderr /usr/local/nginx/logs/error.log
-CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
+COPY --from=builder /nginx-dev/nginx-1.14.2/objs/nginx /usr/sbin/nginx
+CMD ["nginx", "-g", "daemon off;"]
