@@ -1,19 +1,30 @@
 package go_client
 
 import (
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
+var (
+	client *Client
+)
+
+func TestMain(m *testing.M) {
+	client = NewClient("http://localhost:8001")
+
+	os.Exit(m.Run())
+}
+
 func TestIp2location_ErrInvalidIpAddress(t *testing.T) {
-	_, err := Ip2location("", "a")
+	_, err := client.Ip2location("a")
 	assert.Equal(t, ErrInvalidIpAddress, err)
 }
 
 // temp test, not a stable test
 func TestIp2location(t *testing.T) {
-	l, err := Ip2location("http://localhost:8001", "24.19.48.11")
+	l, err := client.Ip2location("24.19.48.11")
 	assert.NoError(t, err)
 	assert.Equal(t, &Location{
 		CountryCode: "US",

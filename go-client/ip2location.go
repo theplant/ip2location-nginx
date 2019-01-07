@@ -22,12 +22,22 @@ type Location struct {
 	Timezone    string
 }
 
-func Ip2location(serviceUrl string, ip string) (*Location, error) {
+func NewClient(serviceUrl string) *Client {
+	return &Client{
+		serviceUrl: serviceUrl,
+	}
+}
+
+type Client struct {
+	serviceUrl string
+}
+
+func (c *Client) Ip2location(ip string) (*Location, error) {
 	if err := validateIpAddress(ip); err != nil {
 		return nil, err
 	}
 
-	req, err := http.NewRequest(http.MethodGet, serviceUrl, nil)
+	req, err := http.NewRequest(http.MethodGet, c.serviceUrl, nil)
 	if err != nil {
 		return nil, err
 	}
