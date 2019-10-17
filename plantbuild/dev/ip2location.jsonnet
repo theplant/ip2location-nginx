@@ -13,6 +13,6 @@ k8s.image_to_url(
   ingressAnnotations={
     'kubernetes.io/ingress.class': 'nginx',
     'kubernetes.io/tls-acme': 'true',
-    'certmanager.k8s.io/cluster-issuer': 'letsencrypt',
+    'cert-manager.io/cluster-issuer': 'letsencrypt',
   },
 )
