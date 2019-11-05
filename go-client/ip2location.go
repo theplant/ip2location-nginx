@@ -48,6 +48,7 @@ func (c *Client) Ip2location(ip string) (*Location, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
 
 	lat, err := parseFloat64(resp.Header.Get("IP2Location-Latitude"))
 	if err != nil {
