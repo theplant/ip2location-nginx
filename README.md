@@ -5,7 +5,7 @@
 ## Client Usage
 
 ```
-$ curl -H 'X-Forwarded-For: 47.244.37.128' -v localhost:8080
+$ curl -H 'IP2Location-IP: 47.244.37.128' -v localhost:8080
 * Rebuilt URL to: localhost:8080/
 *   Trying ::1...
 * TCP_NODELAY set
@@ -14,11 +14,11 @@ $ curl -H 'X-Forwarded-For: 47.244.37.128' -v localhost:8080
 > Host: localhost:8080
 > User-Agent: curl/7.54.0
 > Accept: */*
-> X-Forwarded-For: 47.244.37.128
+> IP2Location-IP: 47.244.37.128
 >
 < HTTP/1.1 200 OK
-< Server: nginx/1.14.1
-< Date: Thu, 06 Dec 2018 07:13:46 GMT
+< Server: nginx/1.14.2
+< Date: Mon, 14 Sep 2020 09:21:33 GMT
 < Content-Type: application/octet-stream
 < Content-Length: 2
 < Connection: keep-alive
@@ -32,5 +32,4 @@ $ curl -H 'X-Forwarded-For: 47.244.37.128' -v localhost:8080
 < IP2Location-Timezone: +08:00
 <
 * Connection #0 to host localhost left intact
-
 ```
