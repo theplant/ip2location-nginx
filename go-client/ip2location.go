@@ -41,7 +41,7 @@ func (c *Client) Ip2location(ip string) (*Location, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("X-Forwarded-For", ip)
+	req.Header.Set("IP2Location-IP", ip)
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
