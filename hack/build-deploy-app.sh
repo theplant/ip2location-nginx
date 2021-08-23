@@ -15,4 +15,13 @@ rm -rf DB11.ZIP DB11
 plantbuild push ./plantbuild/build.jsonnet
 
 ./hack/deploy-to-cluster.sh test "ssh -o StrictHostKeychecking=no ubuntu@bastion.test.shared.k8s.theplant.dev /bin/bash"
-# ./deploy-to-cluster.sh prod "ssh -o StrictHostKeychecking=no ubuntu@bastion.prod.aigle.k8s.theplant.dev /bin/bash"
+
+TEST_VALIDATION=$(curl -I -m 3 -s -H 'IP2Location-IP: 1.1.1.1' -i https://ip2location-test.theplant-dev.com | awk 'BEGIN {FS=": "}/^ip2location-country-code/{print $2}')
+
+if [ "$TEST_VALIDATION" == "US" ]; 
+  then
+    ./deploy-to-cluster.sh prod "ssh -o StrictHostKeychecking=no ubuntu@bastion.prod.aigle.k8s.theplant.dev /bin/bash"
+  else
+    echo "Test cluster deploy failed, will NOT continue deploy to Prod cluster!!!"
+    exit 1
+fi

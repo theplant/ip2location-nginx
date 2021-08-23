@@ -27,7 +27,6 @@ allows CI presubmit jobs to test by dry-running
 if [ "$JOB_TYPE" == "periodics" ]; then
   plantbuild k8s_apply ./plantbuild/"$CLUSTER"/all.jsonnet -d client
   plantbuild k8s_apply ./plantbuild/"$CLUSTER"/all.jsonnet -d server
-  exit
 fi
 
 plantbuild k8s_apply ./plantbuild/"$CLUSTER"/all.jsonnet
