@@ -29,7 +29,7 @@ if [ "$JOB_TYPE" == "periodics" ]; then
   plantbuild k8s_apply ./plantbuild/"$CLUSTER"/all.jsonnet -d server
 fi
 
-plantbuild k8s_apply ./plantbuild/"$CLUSTER"/all.jsonnet
+plantbuild k8s_apply ./plantbuild/"$CLUSTER"/all.jsonnet -v "$IMAGE_TAG"
 
 # consider to move this functionality to plantbuild
 if [ -z "$KUBECTL_BASH" ]; then
