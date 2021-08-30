@@ -3,8 +3,8 @@
 set -o errexit
 set -o pipefail
 
-CLUSTER=${1}
-KUBECTL_BASH=${2}
+export CLUSTER=${1}
+export KUBECTL_BASH=${2}
 
 echo "$CLUSTER"
 echo "$KUBECTL_BASH"
