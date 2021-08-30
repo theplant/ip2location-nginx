@@ -24,7 +24,7 @@ TEST_COUNTRY_CODE=$(curl -I -m 3 -s -H 'IP2Location-IP: 1.1.1.1' -i https://ip2l
 
 if [ "$TEST_COUNTRY_CODE" == "US" ]; 
   then
-    ./deploy-to-cluster.sh prod "$SHARED_K8S_CLUSTER"
+    ./hack/deploy-to-cluster.sh prod "$SHARED_K8S_CLUSTER"
   else
     echo "Test cluster deploy failed, will NOT continue deploy to Prod cluster!!!"
     exit 1
