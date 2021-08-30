@@ -16,9 +16,9 @@ export IMAGE_TAG="$(date "+%Y%m%d")"
 export SHARED_TEST_CLUSTER="ssh -o StrictHostKeychecking=no ubuntu@bastion.test.shared.k8s.theplant.dev /bin/bash"
 export SHARED_K8S_CLUSTER="ssh -o StrictHostKeychecking=no ubuntu@bastion.prod.aigle.k8s.theplant.dev /bin/bash"
 
-# if PR merge to master (postsubmits job)
+# if PR merge to master (postsubmit job)
 # then build new base image and app image
-if [ "$JOB_TYPE" == "postsubmits" ]; then
+if [ "$JOB_TYPE" == "postsubmit" ]; then
   plantbuild push ./plantbuild/build-base.jsonnet -v "$IMAGE_TAG"
 fi
 
