@@ -8,7 +8,7 @@ k8s.image_to_url(
   port=8080,
   targetPort=8080,
   imagePullSecrets='',
-  image='theplant/ip2location-nginx',
+  image='562055475000.dkr.ecr.ap-northeast-1.amazonaws.com/public/ip2location-nginx',
   ingressTLSEnabled=true,
   ingressAnnotations={
     'kubernetes.io/ingress.class': 'nginx',
