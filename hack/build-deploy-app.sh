@@ -33,6 +33,7 @@ export TEST_COUNTRY_CODE
 
 if [ "$TEST_COUNTRY_CODE" == "US" ]; 
   then
+    echo "Test cluster deploy successfully, TEST_COUNTRY_CODE = $TEST_COUNTRY_CODE"
     ./hack/deploy-to-cluster.sh prod "$SHARED_K8S_CLUSTER"
   else
     echo "TEST_COUNTRY_CODE = $TEST_COUNTRY_CODE"
