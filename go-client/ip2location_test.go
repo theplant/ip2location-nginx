@@ -12,7 +12,7 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	client = NewClient("http://localhost:8080")
+	client = NewClient("http://localhost:9080")
 
 	os.Exit(m.Run())
 }
