@@ -23,7 +23,7 @@ else
   # export KUBECTL_BASH="ssh -o StrictHostKeychecking=no ubuntu@bastion.foobar.theplant.dev /bin/bash"
 fi
 
-allows CI presubmit jobs to test by dry-running
+# allows CI presubmit jobs to test by dry-running
 if [ "$JOB_TYPE" == "periodics" ]; then
   plantbuild k8s_apply ./plantbuild/"$CLUSTER"/all.jsonnet -d client
   plantbuild k8s_apply ./plantbuild/"$CLUSTER"/all.jsonnet -d server
