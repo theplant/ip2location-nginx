@@ -19,7 +19,7 @@ export SHARED_K8S_CLUSTER="ssh -o StrictHostKeychecking=no ubuntu@bastion.prod.a
 # if PR merge to master (postsubmit job)
 # then build new base image and app image
 if [ "$JOB_TYPE" == "postsubmit" ]; then
-  plantbuild push ./plantbuild/build-base.jsonnet -v "$IMAGE_TAG"
+  plantbuild push ./plantbuild/build-base.jsonnet
 fi
 
 # if periodic job
