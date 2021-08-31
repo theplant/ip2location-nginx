@@ -10,6 +10,9 @@ k8s.image_to_url(
   imagePullSecrets='',
   image='562055475000.dkr.ecr.ap-northeast-1.amazonaws.com/public/ip2location-nginx',
   ingressTLSEnabled=true,
+  container={
+    imagePullPolicy: 'Always',
+  },
   ingressAnnotations={
     'kubernetes.io/ingress.class': 'nginx',
     'kubernetes.io/tls-acme': 'true',
