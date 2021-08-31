@@ -3,8 +3,9 @@
 set -o errexit
 set -o pipefail
 
-export CLUSTER=${1}
-export KUBECTL_BASH=${2}
+CLUSTER=${1}
+IMAGE_TAG=${2}
+KUBECTL_BASH=${3}
 
 # if no cluster aliases provided, display the usage and exit
 if [ "$CLUSTER" == "" ]; then
@@ -23,12 +24,6 @@ else
   # export KUBECTL_BASH="ssh -o StrictHostKeychecking=no ubuntu@bastion.foobar.theplant.dev /bin/bash"
 fi
 
-# allows CI periodic and postsubmit jobs to test by dry-running
-if [ "$JOB_TYPE" == "periodic" ] || [ "$JOB_TYPE" == "postsubmit" ]; then
-  plantbuild k8s_apply ./plantbuild/"$CLUSTER"/all.jsonnet -v "$IMAGE_TAG" -d client
-  plantbuild k8s_apply ./plantbuild/"$CLUSTER"/all.jsonnet -v "$IMAGE_TAG" -d server
-fi
-
 plantbuild k8s_apply ./plantbuild/"$CLUSTER"/all.jsonnet -v "$IMAGE_TAG"
 
 # consider to move this functionality to plantbuild
@@ -42,3 +37,14 @@ COMMAND="kubectl -n $NAMESPACE get deploy -o name |
             kubectl -n $NAMESPACE rollout status --timeout 150s"
 
 echo "$COMMAND" | $KUBECTL_BASH
+
+VALIDATE_COUNTRY_CODE=$(curl -I -s -H 'IP2Location-IP: 1.1.1.1' -i https://ip2location-"$CLUSTER".theplant-dev.com | awk 'BEGIN {FS=": "}/^ip2location-country-code/{print $2}' | tr -d '\r')
+
+if [ "$VALIDATE_COUNTRY_CODE" == "US" ]; 
+  then
+    echo "'$CLUSTER' cluster deployed successfully, COUNTRY_CODE='$VALIDATE_COUNTRY_CODE'"
+  else
+    echo "COUNTRY_CODE='$VALIDATE_COUNTRY_CODE'"
+    echo "'$CLUSTER' cluster deployed failed!!!"
+    exit 1
+fi
