@@ -28,7 +28,7 @@ plantbuild push ./plantbuild/build.jsonnet -v "$IMAGE_TAG"
 
 ./hack/deploy-to-cluster.sh test "$SHARED_TEST_CLUSTER"
 
-TEST_COUNTRY_CODE=$(curl -I -s -H 'IP2Location-IP: 1.1.1.1' -i https://ip2location-test.theplant-dev.com | awk 'BEGIN {FS=": "}/^ip2location-country-code/{print $2}')
+TEST_COUNTRY_CODE=$(curl -I -s -H 'IP2Location-IP: 1.1.1.1' -i https://ip2location-test.theplant-dev.com | awk 'BEGIN {FS=": "}/^ip2location-country-code/{print $2}' | tr -d '\r')
 
 if [ "$TEST_COUNTRY_CODE" == "US" ]; 
   then
