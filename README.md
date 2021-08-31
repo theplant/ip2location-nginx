@@ -2,6 +2,43 @@
 
 [How to use IP2Location GeoLocation with Nginx](https://blog.ip2location.com/knowledge-base/how-to-use-ip2location-geolocation-with-nginx/)
 
+## CI
+
+CI running on Prow https://prow.theplant.dev/?repo=theplant%2Fip2location-nginx
+
+### Periodic job:
+
+- Run at UTC 19:00 every Monday (`cron: "0 19 * * MON"`, at 03:00 every Tuesday)
+- Download new DB file
+- Build app with latest base image
+- Deploy to test cluster
+- Validate deployment and query result
+- Deploy to prod cluster
+
+### Postsubmit job:
+
+- Run when PR post to `master` branch
+- Build base image
+- Download new DB file
+- Build app with latest base image
+- Deploy to test cluster
+- Validate deployment and query result
+- Deploy to prod cluster
+
+## Services
+
+- Test: https://ip2location-test.theplant-dev.com
+
+```
+curl -I -H 'IP2Location-IP: 1.1.1.1' -i 'https://ip2location-test.theplant-dev.com'
+```
+
+- Prod: https://ip2location-prod.theplant-dev.com
+
+```
+curl -I -H 'IP2Location-IP: 1.1.1.1' -i 'https://ip2location-prod.theplant-dev.com'
+```
+
 ## Client Usage
 
 ```
