@@ -40,6 +40,10 @@ echo "$COMMAND" | $KUBECTL_BASH
 
 IP2LOCATION_SERVICE_ENDPOINT=https://ip2location-"$CLUSTER".theplant-dev.com
 
+echo "IP2LOCATION_SERVICE_ENDPOINT='$IP2LOCATION_SERVICE_ENDPOINT'"
+
+echo "$(curl -I -s -H 'IP2Location-IP: 1.1.1.1' -i "$IP2LOCATION_SERVICE_ENDPOINT")"
+
 VALIDATE_COUNTRY_CODE=$(curl -I -s -H 'IP2Location-IP: 1.1.1.1' -i "$IP2LOCATION_SERVICE_ENDPOINT" | awk 'BEGIN {FS=": "}/^ip2location-country-code/{print $2}' | tr -d '\r')
 
 if [ "$VALIDATE_COUNTRY_CODE" == "US" ]; 
