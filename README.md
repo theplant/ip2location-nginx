@@ -8,22 +8,29 @@ CI running on Prow https://prow.theplant.dev/?repo=theplant%2Fip2location-nginx
 
 ### Periodic job:
 
-- Run at UTC 19:00 every Monday (`cron: "0 19 * * MON"`, at 03:00 every Tuesday)
+- Run at UTC 19:00 every Monday (`cron: "0 19 * * MON"`, at CST 03:00 every Tuesday)
 - Download new DB file
 - Build app with latest base image
-- Deploy to test cluster
-- Validate deployment and query result
-- Deploy to prod cluster
+- Image tag: date (`date "+%Y%m%d"`)
+- Deploy to test cluster and validate
+- Deploy to prod cluster and validate
 
 ### Postsubmit job:
 
-- Run when PR post to `master` branch
+#### Branch `release-test`
+
+- Run on branch `release-test`
 - Build base image
 - Download new DB file
 - Build app with latest base image
-- Deploy to test cluster
-- Validate deployment and query result
-- Deploy to prod cluster
+- Image tag: git-hash (`git rev-parse HEAD | cut -c 1-7`)
+- Deploy to test cluster and validate
+
+#### Branch `release-prod`
+
+- Run on branch `release-prod`
+- Image tag: value from file `plantbuild/prod/ip2location.jsonnet`
+- Deploy to prod cluster and validate
 
 ## Services
 
@@ -37,6 +44,27 @@ curl -I -H 'IP2Location-IP: 1.1.1.1' -i 'https://ip2location-test.theplant-dev.c
 
 ```
 curl -I -H 'IP2Location-IP: 1.1.1.1' -i 'https://ip2location-prod.theplant-dev.com'
+```
+
+- Result
+
+```
+HTTP/1.1 200 Connection established
+Connection: close
+
+HTTP/2 200
+date: Wed, 01 Sep 2021 04:37:54 GMT
+content-type: application/octet-stream
+content-length: 2
+ip2location-country-code: US
+ip2location-country-name: United States of America
+ip2location-region: California
+ip2location-city: Los Angeles
+ip2location-latitude: 34.052231
+ip2location-longitude: -118.243683
+ip2location-zipcode: 90001
+ip2location-timezone: -07:00
+strict-transport-security: max-age=15724800; includeSubDomains
 ```
 
 ## Client Usage
