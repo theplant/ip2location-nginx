@@ -3,9 +3,9 @@
 set -o errexit
 set -o pipefail
 
-CLUSTER=${1}
-IMAGE_TAG=${2}
-KUBECTL_BASH=${3}
+export CLUSTER=${1}
+export IMAGE_TAG=${2}
+export KUBECTL_BASH=${3}
 
 # if no cluster aliases provided, display the usage and exit
 if [ "$CLUSTER" == "" ]; then
