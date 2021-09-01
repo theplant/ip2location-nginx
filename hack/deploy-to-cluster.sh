@@ -38,7 +38,9 @@ COMMAND="kubectl -n $NAMESPACE get deploy -o name |
 
 echo "$COMMAND" | $KUBECTL_BASH
 
-VALIDATE_COUNTRY_CODE=$(curl -I -s -H 'IP2Location-IP: 1.1.1.1' -i https://ip2location-"$CLUSTER".theplant-dev.com | awk 'BEGIN {FS=": "}/^ip2location-country-code/{print $2}' | tr -d '\r')
+IP2LOCATION_SERVICE_ENDPOINT=https://ip2location-"$CLUSTER".theplant-dev.com
+
+VALIDATE_COUNTRY_CODE=$(curl -I -s -H 'IP2Location-IP: 1.1.1.1' -i "$IP2LOCATION_SERVICE_ENDPOINT" | awk 'BEGIN {FS=": "}/^ip2location-country-code/{print $2}' | tr -d '\r')
 
 if [ "$VALIDATE_COUNTRY_CODE" == "US" ]; 
   then
