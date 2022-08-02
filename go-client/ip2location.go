@@ -24,11 +24,13 @@ type Location struct {
 
 func NewClient(serviceUrl string) *Client {
 	return &Client{
+		hc:         &http.Client{},
 		serviceUrl: serviceUrl,
 	}
 }
 
 type Client struct {
+	hc         *http.Client
 	serviceUrl string
 }
 
@@ -43,8 +45,7 @@ func (c *Client) Ip2location(ip string) (*Location, error) {
 	}
 	req.Header.Set("IP2Location-IP", ip)
 
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	resp, err := c.hc.Do(req)
 	if err != nil {
 		return nil, err
 	}
