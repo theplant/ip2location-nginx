@@ -1,4 +1,4 @@
-FROM theplant/ip2location-nginx-base:latest
+FROM public.ecr.aws/theplant/ip2location-nginx-base:latest
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY DB11.BIN /etc/ip2location/DB11.BIN
