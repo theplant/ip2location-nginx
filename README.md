@@ -82,7 +82,6 @@ $ curl -H 'IP2Location-IP: 47.244.37.128' -v localhost:8080
 > IP2Location-IP: 47.244.37.128
 >
 < HTTP/1.1 200 OK
-< Server: nginx/1.14.2
 < Date: Mon, 14 Sep 2020 09:21:33 GMT
 < Content-Type: application/octet-stream
 < Content-Length: 2
