@@ -8,7 +8,7 @@ k8s.image_to_url(
   port=9080,
   targetPort=9080,
   imagePullSecrets='',
-  image='562055475000.dkr.ecr.ap-northeast-1.amazonaws.com/public/ip2location-nginx:3277dc5',
+  image='562055475000.dkr.ecr.ap-northeast-1.amazonaws.com/public/ip2location-nginx:94d6583',
   memoryLimit='200Mi',
   ingressTLSEnabled=true,
   container={
