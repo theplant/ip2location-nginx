@@ -24,7 +24,7 @@ RUN nginx -V 2> $$ \
     && eval ./configure $nginx_configure_arguments \
     && make
 
-FROM nginx:1.24.0
+FROM cgr.dev/chainguard/nginx:1.24.0
 ENV LD_LIBRARY_PATH /usr/local/lib
 COPY --from=builder /usr/local/lib /usr/local/lib
 COPY --from=builder /nginx-dev/nginx-1.24.0/objs/nginx /usr/sbin/nginx
