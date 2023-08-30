@@ -39,14 +39,26 @@ COMMAND="kubectl -n $NAMESPACE get deploy -o name |
 echo "$COMMAND" | $KUBECTL_BASH
 
 IP2LOCATION_SERVICE_ENDPOINT=https://ip2location-"$CLUSTER".theplant-dev.com
-
 echo "IP2LOCATION_SERVICE_ENDPOINT='$IP2LOCATION_SERVICE_ENDPOINT'"
+echo "curl -I -s -H 'IP2Location-IP: 1.1.1.1' -i $IP2LOCATION_SERVICE_ENDPOINT"
 
-echo "$(curl -I -s -H 'IP2Location-IP: 1.1.1.1' -i "$IP2LOCATION_SERVICE_ENDPOINT")"
+MAX_RETRIES=3
+RETRY_DELAY=3
 
-VALIDATE_COUNTRY_CODE=$(curl -I -s -H 'IP2Location-IP: 1.1.1.1' -i "$IP2LOCATION_SERVICE_ENDPOINT" | awk 'BEGIN {FS=": "}/^ip2location-country-code/{print $2}' | tr -d '\r')
+for ((retry=1; retry<="$MAX_RETRIES"; retry++)); do
+    curl -I -s -H 'IP2Location-IP: 1.1.1.1' -i "$IP2LOCATION_SERVICE_ENDPOINT"
+    VALIDATE_COUNTRY_CODE=$(curl -I -s -H 'IP2Location-IP: 1.1.1.1' -i "$IP2LOCATION_SERVICE_ENDPOINT" | awk 'BEGIN {FS=": "}/^ip2location-country-code/{print $2}' | tr -d '\r')
 
-if [ "$VALIDATE_COUNTRY_CODE" == "US" ]; 
+    if [ -z "$VALIDATE_COUNTRY_CODE" ]; then
+        echo "Country code is empty. Retrying in $RETRY_DELAY seconds..."
+        sleep $RETRY_DELAY
+    else
+        echo "Country code: $VALIDATE_COUNTRY_CODE"
+        break
+    fi
+done
+
+if [ "$VALIDATE_COUNTRY_CODE" == "US" ];
   then
     echo "'$CLUSTER' cluster deployed successfully, COUNTRY_CODE='$VALIDATE_COUNTRY_CODE'"
   else
