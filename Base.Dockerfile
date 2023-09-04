@@ -1,5 +1,6 @@
 FROM nginx:1.25.0 as builder
 RUN apt-get update -y && \
+    apt-get upgrade -y && \
     apt-get install -y build-essential dh-autoreconf unzip wget libpcre3 libpcre3-dev zlib1g zlib1g.dev libssl-dev && \
     rm -rf /var/lib/apt/lists/*
 RUN mkdir /nginx-dev && \
