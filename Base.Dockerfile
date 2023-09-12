@@ -26,6 +26,7 @@ RUN nginx -V 2> $$ \
     && make
 
 FROM nginx:1.25.0
+RUN apt-get update -y && apt-get upgrade -y
 ENV LD_LIBRARY_PATH /usr/local/lib
 COPY --from=builder /usr/local/lib /usr/local/lib
 COPY --from=builder /nginx-dev/nginx-1.25.0/objs/nginx /usr/sbin/nginx
