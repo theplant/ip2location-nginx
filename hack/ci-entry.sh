@@ -10,7 +10,7 @@ export IMAGE_TAG_FILE_PROD="$(grep 'public/ip2location-nginx' plantbuild/prod/ip
 export SHARED_TEST_CLUSTER="ssh -o StrictHostKeychecking=no ubuntu@bastion.test.shared.k8s.theplant.dev /bin/bash"
 export SHARED_K8S_CLUSTER="ssh -o StrictHostKeychecking=no ubuntu@bastion.prod.aigle.k8s.theplant.dev /bin/bash"
 
-if [ "$JOB_TYPE" == "periodic" ]; 
+if [ "$JOB_TYPE" == "periodic" ];
   then
     echo "This is weekly periodic job, will build app and deploy test and prod."
     ./hack/build-app.sh "$IMAGE_TAG_DATE"
@@ -18,7 +18,7 @@ if [ "$JOB_TYPE" == "periodic" ];
     ./hack/deploy-to-cluster.sh prod "$IMAGE_TAG_DATE" "$SHARED_K8S_CLUSTER"
     exit
 
-elif [ "$JOB_TYPE" == "postsubmit" ] && [ "$PULL_BASE_REF" == "release-test" ]; 
+elif [ "$JOB_TYPE" == "postsubmit" ] && [ "$PULL_BASE_REF" == "release-test" ];
   then
     echo "This is postsubmit job for branch release-test, will build base+app and deploy test."
     ./hack/build-base.sh
@@ -26,7 +26,7 @@ elif [ "$JOB_TYPE" == "postsubmit" ] && [ "$PULL_BASE_REF" == "release-test" ];
     ./hack/deploy-to-cluster.sh test "$IMAGE_TAG_HASH" "$SHARED_TEST_CLUSTER"
     exit
 
-elif [ "$JOB_TYPE" == "postsubmit" ] && [ "$PULL_BASE_REF" == "release-prod" ]; 
+elif [ "$JOB_TYPE" == "postsubmit" ] && [ "$PULL_BASE_REF" == "release-prod" ];
   then
     echo "This is postsubmit job for branch release-prod, will deploy prod."
     ./hack/deploy-to-cluster.sh prod "$IMAGE_TAG_FILE_PROD" "$SHARED_K8S_CLUSTER"
