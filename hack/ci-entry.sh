@@ -7,6 +7,11 @@ set -o pipefail
 export IMAGE_TAG_DATE="$(date "+%Y%m%d")"
 export IMAGE_TAG_HASH="$(git rev-parse HEAD | cut -c 1-7)"
 export IMAGE_TAG_FILE_PROD="$(grep '562055475000.dkr.ecr.ap-northeast-1.amazonaws.com/public/ip2location-nginx' plantbuild/prod/ip2location.jsonnet | awk -F ':' '{print $2}' | sed 's/..$//g')"
+
+if [ -z "$IMAGE_TAG_FILE_PROD" ]; then
+  IMAGE_TAG_FILE_PROD='latest'
+fi
+
 export SHARED_TEST_CLUSTER="ssh -o StrictHostKeychecking=no ubuntu@bastion.test.shared.k8s.theplant.dev /bin/bash"
 export SHARED_K8S_CLUSTER="ssh -o StrictHostKeychecking=no ubuntu@bastion.prod.aigle.k8s.theplant.dev /bin/bash"
 
