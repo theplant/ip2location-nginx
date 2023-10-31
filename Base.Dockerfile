@@ -1,4 +1,4 @@
-FROM nginx:1.25.3 as builder
+FROM nginx:1.25.3-bookworm as builder
 RUN apt-get update -y && \
     apt-get upgrade -y && \
     apt-get install -y build-essential dh-autoreconf unzip wget libpcre3 libpcre3-dev zlib1g zlib1g.dev libssl-dev && \
@@ -25,7 +25,7 @@ RUN nginx -V 2> $$ \
     && eval ./configure $nginx_configure_arguments \
     && make
 
-FROM nginx:1.25.3
+FROM nginx:1.25.3-bookworm
 RUN apt-get update -y && apt-get upgrade -y
 ENV LD_LIBRARY_PATH /usr/local/lib
 COPY --from=builder /usr/local/lib /usr/local/lib
