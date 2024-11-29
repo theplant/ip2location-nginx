@@ -40,14 +40,14 @@ echo "$COMMAND" | $KUBECTL_BASH
 
 IP2LOCATION_SERVICE_ENDPOINT=https://ip2location-"$CLUSTER".theplant-dev.com
 echo "IP2LOCATION_SERVICE_ENDPOINT='$IP2LOCATION_SERVICE_ENDPOINT'"
-echo "curl -I -s -H 'IP2Location-IP: 1.1.1.1' -i $IP2LOCATION_SERVICE_ENDPOINT"
+echo "curl -I -s -H 'IP2Location-IP: 8.8.8.8' -i $IP2LOCATION_SERVICE_ENDPOINT"
 
 MAX_RETRIES=3
 RETRY_DELAY=3
 
 for ((retry=1; retry<="$MAX_RETRIES"; retry++)); do
-    curl -I -s -H 'IP2Location-IP: 1.1.1.1' -i "$IP2LOCATION_SERVICE_ENDPOINT"
-    VALIDATE_COUNTRY_CODE=$(curl -I -s -H 'IP2Location-IP: 1.1.1.1' -i "$IP2LOCATION_SERVICE_ENDPOINT" | awk 'BEGIN {FS=": "}/^ip2location-country-code/{print $2}' | tr -d '\r')
+    curl -I -s -H 'IP2Location-IP: 8.8.8.8' -i "$IP2LOCATION_SERVICE_ENDPOINT"
+    VALIDATE_COUNTRY_CODE=$(curl -I -s -H 'IP2Location-IP: 8.8.8.8' -i "$IP2LOCATION_SERVICE_ENDPOINT" | awk 'BEGIN {FS=": "}/^ip2location-country-code/{print $2}' | tr -d '\r')
 
     if [ -z "$VALIDATE_COUNTRY_CODE" ]; then
         echo "Country code is empty. Retrying in $RETRY_DELAY seconds..."
