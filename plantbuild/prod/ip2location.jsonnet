@@ -16,7 +16,8 @@ k8s.image_to_url(
   // Slack thread: https://theplant.slack.com/archives/C011SF22G4S/p1695867636797289
   image='562055475000.dkr.ecr.ap-northeast-1.amazonaws.com/public/ip2location-nginx',
 
-  memoryLimit='200Mi',
+  memoryRequest='256Mi',
+  memoryLimit='384Mi',
   ingressTLSEnabled=true,
   container={
     imagePullPolicy: 'Always',
