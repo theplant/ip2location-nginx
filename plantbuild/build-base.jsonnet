@@ -5,5 +5,5 @@ local dc = dc0 {
 };
 
 dc.build_apps_image('theplant/public', [
-  { name: 'ip2location-nginx-base', context: './', dockerfile: './Base.Dockerfile' },
+  { name: 'ip2location-nginx-base', context: './', dockerfile: './base-image/Dockerfile' },
 ])
