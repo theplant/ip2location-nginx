@@ -1,4 +1,4 @@
-FROM nginx:1.27.4 as builder
+FROM nginx:1.27.5 as builder
 RUN nginx -V 2> $$ \
     && NGINX_VERSION=$(cat $$ | grep 'nginx version:' | awk -F'/' '{print $2}') \
     && echo "Extracted nginx version: $NGINX_VERSION"
@@ -28,7 +28,7 @@ RUN nginx -V 2> $$ \
     && eval ./configure $nginx_configure_arguments \
     && make
 
-FROM nginx:1.27.4
+FROM nginx:1.27.5
 RUN nginx -V 2> $$ \
     && NGINX_VERSION=$(cat $$ | grep 'nginx version:' | awk -F'/' '{print $2}') \
     && echo "Extracted nginx version: $NGINX_VERSION"
