@@ -1,6 +1,7 @@
-ARG NGINX_VERSION=1.27.4
-
-FROM nginx:${NGINX_VERSION} as builder
+FROM nginx:1.27.4 as builder
+RUN nginx -V 2> $$ \
+    && NGINX_VERSION=$(cat $$ | grep 'nginx version:' | awk -F'/' '{print $2}') \
+    && echo "Extracted nginx version: $NGINX_VERSION"
 RUN apt-get update -y && \
     apt-get upgrade -y && \
     apt-get install -y build-essential dh-autoreconf unzip wget libpcre3 libpcre3-dev zlib1g zlib1g.dev libssl-dev && \
@@ -27,7 +28,10 @@ RUN nginx -V 2> $$ \
     && eval ./configure $nginx_configure_arguments \
     && make
 
-FROM nginx:${NGINX_VERSION}
+FROM nginx:1.27.4
+RUN nginx -V 2> $$ \
+    && NGINX_VERSION=$(cat $$ | grep 'nginx version:' | awk -F'/' '{print $2}') \
+    && echo "Extracted nginx version: $NGINX_VERSION"
 RUN apt-get update -y && apt-get upgrade -y && apt-get install -y libpcre3 && apt-get clean
 ENV LD_LIBRARY_PATH /usr/local/lib
 COPY --from=builder /usr/local/lib /usr/local/lib
