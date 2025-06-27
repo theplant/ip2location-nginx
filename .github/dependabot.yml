@@ -4,5 +4,3 @@ updates:
     directory: "base-image/"
     schedule:
       interval: "weekly"
-    reviewers:
-      - "theplant/sre"
