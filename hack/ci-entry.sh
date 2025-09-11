@@ -12,9 +12,6 @@ if [ -z "$IMAGE_TAG_FILE_PROD" ]; then
   IMAGE_TAG_FILE_PROD='latest'
 fi
 
-export SHARED_TEST_CLUSTER="ssh -o StrictHostKeychecking=no ubuntu@bastion.test.shared.k8s.theplant.dev /bin/bash"
-export SHARED_K8S_CLUSTER="ssh -o StrictHostKeychecking=no ubuntu@bastion.prod.aigle.k8s.theplant.dev /bin/bash"
-
 if [ "$JOB_TYPE" == "periodic" ];
   then
     echo "This is weekly periodic job, will build app and deploy test and prod."
